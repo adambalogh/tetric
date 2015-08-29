@@ -27,7 +27,7 @@ bool Board::CallBack() {
   }
 
   BoardFigure f(GetRandomFigure(), 0, 0);
-  if (CanPlace(f.figure, 0, 0)) {
+  if (CanPlace(f)) {
     Add(f);
     return true;
   }
@@ -50,9 +50,9 @@ bool Board::CanMoveTo(const BoardFigure& figure, Direction d) {
       new_row++;
       break;
   }
-  bool can_move_down = CanPlace(figure, new_row, new_column);
+  bool can_move_to = CanPlace(figure, new_row, new_column);
   AddToCells(figure);
-  return can_move_down;
+  return can_move_to;
 }
 
 void Board::MoveTo(BoardFigure& figure, Direction d) {
@@ -96,8 +96,9 @@ void Board::Add(const BoardFigure& figure) {
 void Board::AddToCells(const BoardFigure& figure) {
   for (int i = 0; i < figure.height(); ++i) {
     for (int j = 0; j < figure.width(); ++j) {
-      cells_[figure.top_left_row + i][figure.top_left_column + j] =
-          figure.figure[i][j];
+      if (figure.figure[i][j]) {
+        cells_[figure.top_left_row + i][figure.top_left_column + j] = 1;
+      }
     }
   }
 }

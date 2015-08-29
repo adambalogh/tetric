@@ -42,7 +42,7 @@ class Board {
     }
   }
 
-  const int height = 15;
+  const int height = 12;
   const int width = 8;
 
   bool CallBack();
@@ -82,7 +82,6 @@ class Board {
     return FIGURES[index];
   }
 
-  bool cells_[15][8];
-  bool moving = false;
+  bool cells_[12][8];
   std::vector<BoardFigure> figures_;
 };
