@@ -7,6 +7,8 @@
 #include "board.h"
 
 void DrawBoard(const Board* board) {
+  attron(COLOR_PAIR(1));
+
   for (int j = 0; j < board->width; ++j) {
     mvwprintw(stdscr, 0, 1 * j, "---");
   }
@@ -25,10 +27,13 @@ void DrawBoard(const Board* board) {
     mvwprintw(stdscr, 1 + board->height, 1 * j, "---");
   }
   wrefresh(stdscr);
+
+  attroff(COLOR_PAIR(1));
 }
 
 int main() {
   initscr();
+  clear();
   cbreak();
   noecho();
   nonl();
@@ -48,13 +53,13 @@ int main() {
   while (true) {
     auto key = getch();
     if (key == 'a') {
-      b.Move(LEFT);
+      b.Move(Board::LEFT);
     }
     if (key == 'd') {
-      b.Move(RIGHT);
+      b.Move(Board::RIGHT);
     }
     if (key == 's') {
-      b.Move(DOWN);
+      b.Move(Board::DOWN);
     }
     DrawBoard(&b);
   }

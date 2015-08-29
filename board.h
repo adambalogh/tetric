@@ -3,36 +3,36 @@
 #include <ctime>
 #include <thread>
 
-typedef enum { LEFT, RIGHT, DOWN } Direction;
-
-typedef std::vector<std::vector<bool>> Figure;
-
-const std::vector<Figure> FIGURES{
-    {{1, 1, 1, 1}},
-    {{1, 1, 1}, {1, 0, 0}},
-    {{1, 1}, {1, 1}},
-    {{1, 1, 1}, {0, 1, 0}},
-    {{0, 1, 1}, {1, 1, 0}},
-    {{1, 1, 0}, {0, 1, 1}},
-};
-
-struct BoardFigure {
-  Figure figure;
-  int top_left_row;
-  int top_left_column;
-
-  BoardFigure(Figure f, int top_left_row, int top_left_column) {
-    this->figure = f;
-    this->top_left_row = top_left_row;
-    this->top_left_column = top_left_column;
-  }
-
-  int height() const { return figure.size(); }
-  int width() const { return figure[0].size(); }
-};
-
 class Board {
+ private:
+  typedef std::vector<std::vector<bool>> Figure;
+
+  const std::vector<Figure> FIGURES{
+      {{1, 1, 1, 1}},
+      {{1, 1, 1}, {1, 0, 0}},
+      {{1, 1}, {1, 1}},
+      {{1, 1, 1}, {0, 1, 0}},
+      {{0, 1, 1}, {1, 1, 0}},
+      {{1, 1, 0}, {0, 1, 1}},
+  };
+
+  struct BoardFigure {
+    Figure figure;
+    int top_left_row;
+    int top_left_column;
+
+    BoardFigure(Figure f, int top_left_row, int top_left_column) {
+      this->figure = f;
+      this->top_left_row = top_left_row;
+      this->top_left_column = top_left_column;
+    }
+
+    int height() const { return figure.size(); }
+    int width() const { return figure[0].size(); }
+  };
+
  public:
+  typedef enum { LEFT, RIGHT, DOWN } Direction;
   Board() {
     std::srand(std::time(0));
     for (int i = 0; i < height; ++i) {
