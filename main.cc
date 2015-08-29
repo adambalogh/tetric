@@ -8,19 +8,21 @@
 
 void DrawBoard(const Board* board) {
   for (int j = 0; j < board->width; ++j) {
-    mvwprintw(stdscr, 0, 3 * j, "---");
+    mvwprintw(stdscr, 0, 1 * j, "---");
   }
   for (int i = 0; i < board->height; ++i) {
+    mvwprintw(stdscr, 1 + i, 0, "|");
     for (int j = 0; j < board->width; ++j) {
       if (board->At(i, j)) {
-        mvwprintw(stdscr, 1 + i, 3 * j, " X ");
+        mvwprintw(stdscr, 1 + i, 1 + 1 * j, "X");
       } else {
-        mvwprintw(stdscr, 1 + i, 3 * j, "   ");
+        mvwprintw(stdscr, 1 + i, 1 + 1 * j, " ");
       }
+      mvwprintw(stdscr, 1 + i, 1 * board->width + 1, "|");
     }
   }
   for (int j = 0; j < board->width; ++j) {
-    mvwprintw(stdscr, 1 + board->height, 3 * j, "---");
+    mvwprintw(stdscr, 1 + board->height, 1 * j, "---");
   }
   wrefresh(stdscr);
 }
