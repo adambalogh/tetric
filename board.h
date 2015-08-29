@@ -1,8 +1,9 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <thread>
 
-typedef enum { LEFT, RIGHT, NONE } Direction;
+typedef enum { LEFT, RIGHT, DOWN } Direction;
 
 typedef std::vector<std::vector<bool>> Figure;
 
@@ -41,16 +42,27 @@ class Board {
     }
   }
 
-  const int height = 30;
-  const int width = 10;
+  const int height = 15;
+  const int width = 8;
 
   bool CallBack();
+  bool Move(Direction d);
 
-  bool At(int row, int column) const { return cells_[row][column]; }
+  bool At(int row, int column) const {
+    std::lock_guard<std::mutex> lock(mu_);
+    return cells_[row][column];
+  }
 
  private:
-  bool CanMoveDown(const BoardFigure& figure);
-  void MoveDown(BoardFigure& figure);
+  mutable std::mutex mu_;
+
+  bool CanMoveTo(const BoardFigure& figure, Direction d);
+  bool CanMoveDown(const BoardFigure& figure) {
+    return CanMoveTo(figure, DOWN);
+  }
+
+  void MoveTo(BoardFigure& figure, Direction d);
+  void MoveDown(BoardFigure& figure) { return MoveTo(figure, DOWN); }
 
   bool CanPlace(const Figure& figure, int row, int column);
   bool CanPlace(const BoardFigure& figure, int row, int column) {
@@ -70,7 +82,7 @@ class Board {
     return FIGURES[index];
   }
 
-  bool cells_[30][10];
+  bool cells_[15][8];
   bool moving = false;
   std::vector<BoardFigure> figures_;
 };

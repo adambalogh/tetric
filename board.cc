@@ -1,7 +1,23 @@
 #include "board.h"
 #include <iostream>
+#include <thread>
+
+bool Board::Move(Direction d) {
+  std::lock_guard<std::mutex> lock(mu_);
+  if (!figures_.size()) {
+    return false;
+  }
+  auto& figure = figures_.back();
+  if (CanMoveTo(figure, d)) {
+    MoveTo(figure, d);
+    return true;
+  }
+
+  return false;
+}
 
 bool Board::CallBack() {
+  std::lock_guard<std::mutex> lock(mu_);
   if (figures_.size()) {
     auto& figure = figures_.back();
     if (CanMoveDown(figure)) {
@@ -19,21 +35,46 @@ bool Board::CallBack() {
   return false;
 }
 
-bool Board::CanMoveDown(const BoardFigure& figure) {
+bool Board::CanMoveTo(const BoardFigure& figure, Direction d) {
   RemoveFromCells(figure);
-  bool can_move_down =
-      CanPlace(figure, figure.top_left_row + 1, figure.top_left_column);
+  int new_row = figure.top_left_row;
+  int new_column = figure.top_left_column;
+  switch (d) {
+    case LEFT:
+      new_column--;
+      break;
+    case RIGHT:
+      new_column++;
+      break;
+    case DOWN:
+      new_row++;
+      break;
+  }
+  bool can_move_down = CanPlace(figure, new_row, new_column);
   AddToCells(figure);
   return can_move_down;
 }
 
-void Board::MoveDown(BoardFigure& figure) {
+void Board::MoveTo(BoardFigure& figure, Direction d) {
   RemoveFromCells(figure);
-  figure.top_left_row++;
+  switch (d) {
+    case LEFT:
+      figure.top_left_column--;
+      break;
+    case RIGHT:
+      figure.top_left_column++;
+      break;
+    case DOWN:
+      figure.top_left_row++;
+      break;
+  }
   AddToCells(figure);
 }
 
 bool Board::CanPlace(const Figure& figure, int row, int column) {
+  if (row < 0 || column < 0) {
+    return false;
+  }
   for (int f_row = 0; f_row < figure.size(); ++f_row) {
     for (int f_column = 0; f_column < figure[0].size(); ++f_column) {
       if (row + f_row >= height || column + f_column >= width) {
