@@ -1,4 +1,5 @@
 #include "board.h"
+#include <iostream>
 
 bool Board::CallBack() {
   if (figures_.size()) {
@@ -63,8 +64,9 @@ void Board::AddToCells(const BoardFigure& figure) {
 void Board::RemoveFromCells(const BoardFigure& figure) {
   for (int i = 0; i < figure.height(); ++i) {
     for (int j = 0; j < figure.width(); ++j) {
-      cells_[figure.top_left_row + i][figure.top_left_column + j] =
-          figure.figure[i][j] ^ 1;
+      if (figure.figure[i][j]) {
+        cells_[figure.top_left_row + i][figure.top_left_column + j] = 0;
+      }
     }
   }
 }

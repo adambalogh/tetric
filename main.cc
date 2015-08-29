@@ -1,4 +1,6 @@
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 #include "board.h"
 
@@ -21,9 +23,8 @@ void DrawBoard(const Board* board) {
 
 int main() {
   Board b;
-  DrawBoard(&b);
-  b.CallBack();
-  DrawBoard(&b);
-  b.CallBack();
-  DrawBoard(&b);
+  while (b.CallBack()) {
+    DrawBoard(&b);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+  }
 }
