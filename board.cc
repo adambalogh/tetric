@@ -2,37 +2,26 @@
 #include <iostream>
 #include <thread>
 
-bool Board::Move(Direction d) {
-  std::lock_guard<std::mutex> lock(mu_);
-  if (!figures_.size()) {
-    return false;
-  }
-  auto& figure = figures_.back();
-  if (CanMoveTo(figure, d)) {
-    MoveTo(figure, d);
-    return true;
-  }
-
-  return false;
+void Board::Add(const BoardFigure& figure) {
+  figures_.push_back(figure);
+  AddToCells(figure);
 }
 
-bool Board::CallBack() {
-  std::lock_guard<std::mutex> lock(mu_);
-  if (figures_.size()) {
-    auto& figure = figures_.back();
-    if (CanMoveDown(figure)) {
-      MoveDown(figure);
-      return true;
+bool Board::CanPlace(const Figure& figure, int row, int column) {
+  if (row < 0 || column < 0) {
+    return false;
+  }
+  for (int f_row = 0; f_row < figure.size(); ++f_row) {
+    for (int f_column = 0; f_column < figure[0].size(); ++f_column) {
+      if (row + f_row >= height || column + f_column >= width) {
+        return false;
+      }
+      if (figure[f_row][f_column] && cells_[row + f_row][column + f_column]) {
+        return false;
+      }
     }
   }
-
-  BoardFigure f(GetRandomFigure(), 0, 0);
-  if (CanPlace(f)) {
-    Add(f);
-    return true;
-  }
-
-  return false;
+  return true;
 }
 
 bool Board::CanMoveTo(const BoardFigure& figure, Direction d) {
@@ -71,28 +60,6 @@ void Board::MoveTo(BoardFigure& figure, Direction d) {
   AddToCells(figure);
 }
 
-bool Board::CanPlace(const Figure& figure, int row, int column) {
-  if (row < 0 || column < 0) {
-    return false;
-  }
-  for (int f_row = 0; f_row < figure.size(); ++f_row) {
-    for (int f_column = 0; f_column < figure[0].size(); ++f_column) {
-      if (row + f_row >= height || column + f_column >= width) {
-        return false;
-      }
-      if (figure[f_row][f_column] && cells_[row + f_row][column + f_column]) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-void Board::Add(const BoardFigure& figure) {
-  figures_.push_back(figure);
-  AddToCells(figure);
-}
-
 void Board::AddToCells(const BoardFigure& figure) {
   for (int i = 0; i < figure.height(); ++i) {
     for (int j = 0; j < figure.width(); ++j) {
@@ -111,4 +78,36 @@ void Board::RemoveFromCells(const BoardFigure& figure) {
       }
     }
   }
+}
+
+bool Board::CallBack() {
+  std::lock_guard<std::mutex> lock(mu_);
+  if (figures_.size()) {
+    auto& figure = figures_.back();
+    if (CanMoveDown(figure)) {
+      MoveDown(figure);
+      return true;
+    }
+  }
+  BoardFigure f(GetRandomFigure(), 0, 0);
+  if (CanPlace(f)) {
+    Add(f);
+    return true;
+  }
+
+  return false;
+}
+
+bool Board::Move(Direction d) {
+  std::lock_guard<std::mutex> lock(mu_);
+  if (!figures_.size()) {
+    return false;
+  }
+  auto& figure = figures_.back();
+  if (CanMoveTo(figure, d)) {
+    MoveTo(figure, d);
+    return true;
+  }
+
+  return false;
 }

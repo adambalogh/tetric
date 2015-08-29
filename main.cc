@@ -53,13 +53,13 @@ int main() {
   while (true) {
     auto key = getch();
     if (key == 'a') {
-      b.Move(Board::LEFT);
+      b.Move(LEFT);
     }
     if (key == 'd') {
-      b.Move(Board::RIGHT);
+      b.Move(RIGHT);
     }
     if (key == 's') {
-      b.Move(Board::DOWN);
+      b.Move(DOWN);
     }
     DrawBoard(&b);
   }

@@ -3,10 +3,11 @@
 #include <ctime>
 #include <thread>
 
+typedef std::vector<std::vector<bool>> Figure;
+typedef enum { LEFT, RIGHT, DOWN } Direction;
+
 class Board {
  private:
-  typedef std::vector<std::vector<bool>> Figure;
-
   const std::vector<Figure> FIGURES{
       {{1, 1, 1, 1}},
       {{1, 1, 1}, {1, 0, 0}},
@@ -32,7 +33,6 @@ class Board {
   };
 
  public:
-  typedef enum { LEFT, RIGHT, DOWN } Direction;
   Board() {
     std::srand(std::time(0));
     for (int i = 0; i < height; ++i) {
