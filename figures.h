@@ -15,6 +15,9 @@ struct Figure {
 
   Figure(FigureType type, FigureShape& shape, int orientation)
       : type(type), shape(shape), orientation(orientation) {}
+
+  int Height() const { return shape.size(); }
+  int Width() const { return shape[0].size(); }
 };
 
 class FigureManager {

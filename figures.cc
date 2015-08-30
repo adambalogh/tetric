@@ -29,7 +29,8 @@ FigureManager::FigureManager() {
   for (auto& f : rot2) {
     rot3[f.first] = Rotate(f.second);
   }
-  shapes_ = {up_shapes, rot1, rot2, rot3};
+  shapes_ = std::vector<std::map<FigureType, FigureShape>>{up_shapes, rot1,
+                                                           rot2, rot3};
 }
 
 FigureShape FigureManager::Rotate(const FigureShape& shape) {
