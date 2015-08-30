@@ -49,6 +49,8 @@ class Board {
   }
 
  private:
+  void ClearFullRows();
+
   // Returns true if we can move the given figure to the given direction
   bool MoveIfPossible(BoardFigure& figure, Direction d);
   // Returns treu if we can move the given figure down

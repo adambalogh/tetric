@@ -23,6 +23,34 @@ void Board::SetCells(const BoardFigure& figure, CellType value) {
 void Board::AddToCells(const BoardFigure& figure) { SetCells(figure, 1); }
 void Board::RemoveFromCells(const BoardFigure& figure) { SetCells(figure, 0); }
 
+void Board::ClearFullRows() {
+  bool is_full[height];
+  for (int i = 0; i < height; ++i) {
+    bool full = true;
+    for (int j = 0; j < width; ++j) {
+      if (!cells_[i][j]) {
+        full = false;
+      }
+    }
+    is_full[i] = full;
+  }
+
+  int index = height - 1;
+  for (int i = height - 1; i >= 0; --i) {
+    if (is_full[i]) continue;
+    for (int j = 0; j < width; ++j) {
+      cells_[index][j] = cells_[i][j];
+    }
+    index--;
+  }
+
+  for (int i = index - 1; i >= 0; --i) {
+    for (int j = 0; j < width; ++j) {
+      cells_[i][j] = 0;
+    }
+  }
+}
+
 bool Board::CanPlace(const FigureShape& figure, int row, int column) const {
   if (row < 0 || column < 0) {
     return false;
@@ -71,6 +99,8 @@ bool Board::CallBack() {
     auto& figure = figures_.back();
     if (MoveDownIfPossible(figure)) {
       return true;
+    } else {
+      ClearFullRows();
     }
   }
   BoardFigure f(figure_manager_.GetRandomUpFigure(), 0, 0);
