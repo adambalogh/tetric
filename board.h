@@ -6,10 +6,16 @@
 class Board {
  public:
   typedef bool CellType;
+  // Tetris game figures, made of blocks
   typedef std::vector<std::vector<CellType>> Figure;
+  // Directions Figures can be moved in
   typedef enum { LEFT, RIGHT, DOWN } Direction;
 
+  const int height = 12;
+  const int width = 8;
+
  private:
+  // All the figures that are in Tetris
   const std::vector<Figure> FIGURES{
       {{1, 1, 1, 1}},
       {{1, 1, 1}, {1, 0, 0}},
@@ -19,6 +25,7 @@ class Board {
       {{1, 1, 0}, {0, 1, 1}},
   };
 
+  // A Figure with it's position on the Board
   struct BoardFigure {
     Figure figure;
     int top_left_row;
@@ -44,9 +51,6 @@ class Board {
     }
   }
 
-  const int height = 12;
-  const int width = 8;
-
   bool CallBack();
   bool Move(Direction d);
 
@@ -58,7 +62,9 @@ class Board {
  private:
   mutable std::mutex mu_;
 
+  // Returns true if we can move the given figure to the given direction
   bool MoveIfPossible(BoardFigure& figure, Direction d);
+  // Returns treu if we can move the given figure down
   bool MoveDownIfPossible(BoardFigure& figure) {
     return MoveIfPossible(figure, DOWN);
   }
