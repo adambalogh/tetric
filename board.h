@@ -60,8 +60,6 @@ class Board {
   }
 
  private:
-  mutable std::mutex mu_;
-
   // Returns true if we can move the given figure to the given direction
   bool MoveIfPossible(BoardFigure& figure, Direction d);
   // Returns treu if we can move the given figure down
@@ -69,15 +67,15 @@ class Board {
     return MoveIfPossible(figure, DOWN);
   }
 
-  bool CanPlace(const Figure& figure, int row, int column);
-  bool CanPlace(const BoardFigure& figure, int row, int column) {
+  bool CanPlace(const Figure& figure, int row, int column) const;
+  bool CanPlace(const BoardFigure& figure, int row, int column) const {
     return CanPlace(figure.figure, row, column);
   }
-  bool CanPlace(const BoardFigure& figure) {
+  bool CanPlace(const BoardFigure& figure) const {
     return CanPlace(figure.figure, figure.top_left_row, figure.top_left_column);
   }
 
-  void Add(const BoardFigure& figure);
+  void AddFigure(const BoardFigure& figure);
 
   void AddToCells(const BoardFigure& figure);
   void RemoveFromCells(const BoardFigure& figure);
@@ -88,6 +86,9 @@ class Board {
     int index = std::rand() % FIGURES.size();
     return FIGURES[index];
   }
+
+  // Guard public methods
+  mutable std::mutex mu_;
 
   CellType cells_[12][8];
   std::vector<BoardFigure> figures_;

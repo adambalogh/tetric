@@ -16,7 +16,7 @@ void DrawBoard(const Board* board) {
     mvwprintw(stdscr, 1 + i, 0, "|");
     for (int j = 0; j < board->width; ++j) {
       if (board->At(i, j)) {
-        mvwprintw(stdscr, 1 + i, 1 + 1 * j, "X");
+        mvwprintw(stdscr, 1 + i, 1 + 1 * j, "O");
       } else {
         mvwprintw(stdscr, 1 + i, 1 + 1 * j, " ");
       }

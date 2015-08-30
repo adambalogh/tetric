@@ -2,7 +2,7 @@
 #include <iostream>
 #include <thread>
 
-void Board::Add(const BoardFigure& figure) {
+void Board::AddFigure(const BoardFigure& figure) {
   figures_.push_back(figure);
   AddToCells(figure);
 }
@@ -20,7 +20,7 @@ void Board::SetCells(const BoardFigure& figure, CellType value) {
 void Board::AddToCells(const BoardFigure& figure) { SetCells(figure, 1); }
 void Board::RemoveFromCells(const BoardFigure& figure) { SetCells(figure, 0); }
 
-bool Board::CanPlace(const Figure& figure, int row, int column) {
+bool Board::CanPlace(const Figure& figure, int row, int column) const {
   if (row < 0 || column < 0) {
     return false;
   }
@@ -72,7 +72,7 @@ bool Board::CallBack() {
   }
   BoardFigure f(GetRandomFigure(), 0, 0);
   if (CanPlace(f)) {
-    Add(f);
+    AddFigure(f);
     return true;
   }
 
