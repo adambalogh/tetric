@@ -2,6 +2,8 @@
 #include <iostream>
 #include <thread>
 
+namespace tetris {
+
 void Board::AddFigure(const BoardFigure& figure) {
   figures_.push_back(figure);
   AddToCells(figure);
@@ -86,4 +88,5 @@ bool Board::Move(Direction d) {
   }
   auto& figure = figures_.back();
   return MoveIfPossible(figure, d);
+}
 }

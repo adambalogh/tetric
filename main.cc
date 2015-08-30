@@ -6,7 +6,7 @@
 
 #include "board.h"
 
-void DrawBoard(const Board* board) {
+void DrawBoard(const tetris::Board* board) {
   attron(COLOR_PAIR(1));
 
   for (int j = 0; j < board->width; ++j) {
@@ -40,7 +40,7 @@ int main() {
   intrflush(stdscr, FALSE);
   keypad(stdscr, TRUE);
 
-  Board b;
+  tetris::Board b;
 
   std::thread loop([&]() {
     while (b.CallBack()) {
@@ -53,13 +53,13 @@ int main() {
   while (true) {
     auto key = getch();
     if (key == 'a') {
-      b.Move(Board::LEFT);
+      b.Move(tetris::Board::LEFT);
     }
     if (key == 'd') {
-      b.Move(Board::RIGHT);
+      b.Move(tetris::Board::RIGHT);
     }
     if (key == 's') {
-      b.Move(Board::DOWN);
+      b.Move(tetris::Board::DOWN);
     }
     DrawBoard(&b);
   }

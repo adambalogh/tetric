@@ -3,38 +3,32 @@
 #include <ctime>
 #include <thread>
 
+namespace tetris {
+
+typedef enum { LEFT, RIGHT, DOWN } Direction;
 class Board {
  public:
-  typedef bool CellType;
-  // Tetris game figures, made of blocks
-  typedef std::vector<std::vector<CellType>> Figure;
-  // Directions Figures can be moved in
-  typedef enum { LEFT, RIGHT, DOWN } Direction;
-
   const int height = 12;
   const int width = 8;
 
  private:
-  // All the figures that are in Tetris
-  const std::vector<Figure> FIGURES{
-      {{1, 1, 1, 1}},
-      {{1, 1, 1}, {1, 0, 0}},
-      {{1, 1}, {1, 1}},
-      {{1, 1, 1}, {0, 1, 0}},
-      {{0, 1, 1}, {1, 1, 0}},
-      {{1, 1, 0}, {0, 1, 1}},
-  };
-
   // A Figure with it's position on the Board
   struct BoardFigure {
     Figure figure;
     int top_left_row;
     int top_left_column;
+    int rotation = 0;
+    int index;
 
     BoardFigure(Figure f, int top_left_row, int top_left_column) {
       this->figure = f;
       this->top_left_row = top_left_row;
       this->top_left_column = top_left_column;
+    }
+
+    Rotate() {
+      rotation = (rotation + 1) % 4;
+      figure = RotatedFigures[rotation];
     }
 
     int height() const { return figure.size(); }
@@ -93,3 +87,4 @@ class Board {
   CellType cells_[12][8];
   std::vector<BoardFigure> figures_;
 };
+}
