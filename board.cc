@@ -90,4 +90,24 @@ bool Board::Move(Direction d) {
   auto& figure = figures_.back();
   return MoveIfPossible(figure, d);
 }
+
+bool Board::Rotate() {
+  if (!figures_.size()) {
+    return false;
+  }
+  auto& figure = figures_.back();
+  auto rotated_shape = figure_manager_.GetRotated(figure.figure);
+  BoardFigure rotated_figure{rotated_shape, figure.top_left_row,
+                             figure.top_left_column};
+  RemoveFromCells(figure);
+  if (CanPlace(rotated_figure)) {
+    figures_.pop_back();
+    figures_.push_back(rotated_figure);
+    AddToCells(rotated_figure);
+    return true;
+  } else {
+    AddToCells(figure);
+    return false;
+  }
+}
 }

@@ -41,6 +41,7 @@ class Board {
 
   bool CallBack();
   bool Move(Direction d);
+  bool Rotate();
 
   CellType At(int row, int column) const {
     std::lock_guard<std::mutex> lock(mu_);

@@ -7,5 +7,8 @@ board.o: board.h board.cc
 figures.o: figures.h figures.cc
 	g++ -std=c++11 figures.cc -c
 
+figures_test: figures_test.cc figures.o
+	g++ -std=c++11 -I /usr/local/gtest/include figures_test.cc figures.o -o figures_test -lgtest -lgtest_main
+
 clean:
 	rm *.o main

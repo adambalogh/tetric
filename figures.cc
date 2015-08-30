@@ -35,11 +35,11 @@ FigureManager::FigureManager() {
 
 FigureShape FigureManager::Rotate(const FigureShape& shape) {
   FigureShape rotated(shape[0].size(), std::vector<CellType>(shape.size()));
-  for (int i = 0; i < shape.size(); ++i) {
-    for (int j = 0; j < shape[0].size(); ++j) {
-      rotated[j][i] = shape[shape.size() - i - 1][j];
+  for (int i = 0; i < rotated.size(); ++i) {
+    for (int j = 0; j < rotated[0].size(); ++j) {
+      rotated[i][j] = shape[shape.size() - j - 1][i];
     }
   }
-  return shape;
+  return rotated;
 }
 }

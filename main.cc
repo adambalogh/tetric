@@ -61,6 +61,9 @@ int main() {
     if (key == 's') {
       b.Move(tetris::DOWN);
     }
+    if (key == 'j') {
+      b.Rotate();
+    }
     DrawBoard(&b);
   }
   loop.join();

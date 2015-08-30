@@ -9,9 +9,9 @@ typedef std::vector<std::vector<CellType>> FigureShape;
 typedef enum { I, SQUARE, L, T, SKEW_RIGHT, SKEW_LEFT, NUM_TYPES } FigureType;
 
 struct Figure {
-  const FigureType type;
-  const FigureShape& shape;
-  const int orientation;
+  FigureType type;
+  FigureShape& shape;
+  int orientation;
 
   Figure(FigureType type, FigureShape& shape, int orientation)
       : type(type), shape(shape), orientation(orientation) {}
@@ -30,11 +30,11 @@ class FigureManager {
   }
 
   Figure GetRotated(const Figure& f) {
-    int new_orientation = f.orientation + 1 % 4;
+    int new_orientation = (f.orientation + 1) % 4;
     return Figure{f.type, shapes_[new_orientation][f.type], new_orientation};
   }
 
- private:
+  // private:
   FigureShape Rotate(const FigureShape& shape);
 
   std::vector<std::map<FigureType, FigureShape>> shapes_;
