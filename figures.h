@@ -1,3 +1,6 @@
+#ifndef TETRIS_FIGURES_H_
+#define TETRIS_FIGURES_H_
+
 #include <cstdlib>
 #include <map>
 #include <vector>
@@ -40,3 +43,4 @@ class FigureManager {
   std::vector<std::map<FigureType, FigureShape>> shapes_;
 };
 }
+#endif

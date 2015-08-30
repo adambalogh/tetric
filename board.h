@@ -1,3 +1,6 @@
+#ifndef TETRIS_BOARD_H_
+#define TETRIS_BOARD_H_
+
 #include <vector>
 #include <cstdlib>
 #include <ctime>
@@ -82,3 +85,5 @@ class Board {
   FigureManager figure_manager_;
 };
 }
+
+#endif
