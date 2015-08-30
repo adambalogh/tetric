@@ -56,13 +56,10 @@ class Board {
  private:
   mutable std::mutex mu_;
 
-  bool CanMoveTo(const BoardFigure& figure, Direction d);
-  bool CanMoveDown(const BoardFigure& figure) {
-    return CanMoveTo(figure, DOWN);
+  bool MoveIfPossible(BoardFigure& figure, Direction d);
+  bool MoveDownIfPossible(BoardFigure& figure) {
+    return MoveIfPossible(figure, DOWN);
   }
-
-  void MoveTo(BoardFigure& figure, Direction d);
-  void MoveDown(BoardFigure& figure) { return MoveTo(figure, DOWN); }
 
   bool CanPlace(const Figure& figure, int row, int column);
   bool CanPlace(const BoardFigure& figure, int row, int column) {
