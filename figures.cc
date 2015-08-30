@@ -1,7 +1,7 @@
-#include "figures.h"
-
 #include <map>
 #include <ctime>
+
+#include "figures.h"
 
 namespace tetris {
 

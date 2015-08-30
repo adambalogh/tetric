@@ -53,13 +53,13 @@ int main() {
   while (true) {
     auto key = getch();
     if (key == 'a') {
-      b.Move(tetris::Board::LEFT);
+      b.Move(tetris::LEFT);
     }
     if (key == 'd') {
-      b.Move(tetris::Board::RIGHT);
+      b.Move(tetris::RIGHT);
     }
     if (key == 's') {
-      b.Move(tetris::Board::DOWN);
+      b.Move(tetris::DOWN);
     }
     DrawBoard(&b);
   }

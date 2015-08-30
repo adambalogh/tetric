@@ -25,8 +25,8 @@ class Board {
           top_left_row(top_left_row),
           top_left_column(top_left_column) {}
 
-    int Height() const { return figure.size(); }
-    int Width() const { return figure[0].size(); }
+    int Height() const { return figure.Height(); }
+    int Width() const { return figure.Width(); }
     const FigureShape& Shape() const { return figure.shape; }
   };
 
@@ -75,6 +75,7 @@ class Board {
   mutable std::mutex mu_;
 
   CellType cells_[12][8];
+  std::vector<BoardFigure> figures_;
   FigureManager figure_manager_;
 };
 }

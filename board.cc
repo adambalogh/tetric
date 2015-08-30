@@ -1,6 +1,7 @@
-#include "board.h"
 #include <iostream>
 #include <thread>
+
+#include "board.h"
 
 namespace tetris {
 
@@ -10,9 +11,9 @@ void Board::AddFigure(const BoardFigure& figure) {
 }
 
 void Board::SetCells(const BoardFigure& figure, CellType value) {
-  for (int i = 0; i < figure.height(); ++i) {
-    for (int j = 0; j < figure.width(); ++j) {
-      if (figure.figure[i][j]) {
+  for (int i = 0; i < figure.Height(); ++i) {
+    for (int j = 0; j < figure.Width(); ++j) {
+      if (figure.Shape()[i][j]) {
         cells_[figure.top_left_row + i][figure.top_left_column + j] = value;
       }
     }
@@ -22,7 +23,7 @@ void Board::SetCells(const BoardFigure& figure, CellType value) {
 void Board::AddToCells(const BoardFigure& figure) { SetCells(figure, 1); }
 void Board::RemoveFromCells(const BoardFigure& figure) { SetCells(figure, 0); }
 
-bool Board::CanPlace(const Figure& figure, int row, int column) const {
+bool Board::CanPlace(const FigureShape& figure, int row, int column) const {
   if (row < 0 || column < 0) {
     return false;
   }
@@ -72,7 +73,7 @@ bool Board::CallBack() {
       return true;
     }
   }
-  BoardFigure f(GetRandomFigure(), 0, 0);
+  BoardFigure f(figure_manager_.GetRandomUpFigure(), 0, 0);
   if (CanPlace(f)) {
     AddFigure(f);
     return true;
