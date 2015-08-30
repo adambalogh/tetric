@@ -9,8 +9,8 @@ typedef std::vector<std::vector<CellType>> FigureShape;
 typedef enum { I, SQUARE, L, T, SKEW_RIGHT, SKEW_LEFT, NUM_TYPES } FigureType;
 
 struct Figure {
-  FigureType type;
-  FigureShape& shape;
+  const FigureType type;
+  const FigureShape& shape;
   int orientation;
 
   Figure(FigureType type, FigureShape& shape, int orientation)
