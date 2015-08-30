@@ -3,10 +3,12 @@
 #include <ctime>
 #include <thread>
 
-typedef std::vector<std::vector<bool>> Figure;
-typedef enum { LEFT, RIGHT, DOWN } Direction;
-
 class Board {
+ public:
+  typedef bool CellType;
+  typedef std::vector<std::vector<CellType>> Figure;
+  typedef enum { LEFT, RIGHT, DOWN } Direction;
+
  private:
   const std::vector<Figure> FIGURES{
       {{1, 1, 1, 1}},
@@ -48,7 +50,7 @@ class Board {
   bool CallBack();
   bool Move(Direction d);
 
-  bool At(int row, int column) const {
+  CellType At(int row, int column) const {
     std::lock_guard<std::mutex> lock(mu_);
     return cells_[row][column];
   }
@@ -70,15 +72,17 @@ class Board {
   }
 
   void Add(const BoardFigure& figure);
-  void AddToCells(const BoardFigure& figure);
 
+  void AddToCells(const BoardFigure& figure);
   void RemoveFromCells(const BoardFigure& figure);
+
+  void SetCells(const BoardFigure& figure, CellType value);
 
   Figure GetRandomFigure() {
     int index = std::rand() % FIGURES.size();
     return FIGURES[index];
   }
 
-  bool cells_[12][8];
+  CellType cells_[12][8];
   std::vector<BoardFigure> figures_;
 };

@@ -7,25 +7,18 @@ void Board::Add(const BoardFigure& figure) {
   AddToCells(figure);
 }
 
-void Board::AddToCells(const BoardFigure& figure) {
+void Board::SetCells(const BoardFigure& figure, CellType value) {
   for (int i = 0; i < figure.height(); ++i) {
     for (int j = 0; j < figure.width(); ++j) {
       if (figure.figure[i][j]) {
-        cells_[figure.top_left_row + i][figure.top_left_column + j] = 1;
+        cells_[figure.top_left_row + i][figure.top_left_column + j] = value;
       }
     }
   }
 }
 
-void Board::RemoveFromCells(const BoardFigure& figure) {
-  for (int i = 0; i < figure.height(); ++i) {
-    for (int j = 0; j < figure.width(); ++j) {
-      if (figure.figure[i][j]) {
-        cells_[figure.top_left_row + i][figure.top_left_column + j] = 0;
-      }
-    }
-  }
-}
+void Board::AddToCells(const BoardFigure& figure) { SetCells(figure, 1); }
+void Board::RemoveFromCells(const BoardFigure& figure) { SetCells(figure, 0); }
 
 bool Board::CanPlace(const Figure& figure, int row, int column) {
   if (row < 0 || column < 0) {
@@ -59,14 +52,14 @@ bool Board::MoveIfPossible(BoardFigure& figure, Direction d) {
       new_row++;
       break;
   }
-  bool can_move_to = CanPlace(figure, new_row, new_column);
-  if (can_move_to) {
+  bool can_move = CanPlace(figure, new_row, new_column);
+  if (can_move) {
     figure.top_left_row = new_row;
     figure.top_left_column = new_column;
   }
   AddToCells(figure);
 
-  return can_move_to;
+  return can_move;
 }
 
 bool Board::CallBack() {
