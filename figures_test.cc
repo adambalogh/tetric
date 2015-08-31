@@ -6,7 +6,7 @@
 using namespace tetris;
 
 TEST(FigureManager, MakeFigureUpOrientation) {
-  auto fm = FigureManager();
+  FigureManager fm;
   auto figure = fm.MakeFigure(I, 0);
 
   ASSERT_EQ(I, figure.type);
@@ -16,7 +16,7 @@ TEST(FigureManager, MakeFigureUpOrientation) {
 }
 
 TEST(FigureManager, MakeFigureRotatedOrientation) {
-  auto fm = FigureManager();
+  FigureManager fm;
   auto figure = fm.MakeFigure(I, 1);
 
   ASSERT_EQ(I, figure.type);
@@ -26,7 +26,7 @@ TEST(FigureManager, MakeFigureRotatedOrientation) {
 }
 
 TEST(FigureManager, Rotate) {
-  auto fm = FigureManager();
+  FigureManager fm;
   auto figure = fm.MakeFigure(I, 0);
   auto rotated = fm.GetRotated(figure);
 
