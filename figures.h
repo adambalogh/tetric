@@ -27,6 +27,10 @@ class FigureManager {
  public:
   FigureManager();
 
+  Figure MakeFigure(const FigureType type, const int orientation) {
+    return Figure{type, shapes_[orientation][type], orientation};
+  }
+
   inline Figure GetRandomUpFigure() {
     auto type = static_cast<FigureType>(std::rand() % NUM_TYPES);
     return Figure{type, shapes_[0][type], 0};
