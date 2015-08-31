@@ -11,7 +11,7 @@ TEST(FigureManager, MakeFigureUpOrientation) {
 
   ASSERT_EQ(I, figure.type);
   ASSERT_EQ(0, figure.orientation);
-  auto i_shape = FigureShape{{1, 1, 1, 1}};
+  FigureShape i_shape{{1, 1, 1, 1}};
   ASSERT_EQ(i_shape, figure.shape);
 }
 
@@ -21,7 +21,7 @@ TEST(FigureManager, MakeFigureRotatedOrientation) {
 
   ASSERT_EQ(I, figure.type);
   ASSERT_EQ(1, figure.orientation);
-  auto i_shape = FigureShape{{1}, {1}, {1}, {1}};
+  FigureShape i_shape{{1}, {1}, {1}, {1}};
   ASSERT_EQ(i_shape, figure.shape);
 }
 
@@ -32,7 +32,7 @@ TEST(FigureManager, Rotate) {
 
   ASSERT_EQ(I, rotated.type);
   ASSERT_EQ(1, rotated.orientation);
-  auto i_shape = FigureShape{{1}, {1}, {1}, {1}};
+  FigureShape i_shape{{1}, {1}, {1}, {1}};
   ASSERT_EQ(i_shape, rotated.shape);
 }
 
