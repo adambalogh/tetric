@@ -47,7 +47,7 @@ class FigureManager {
     return Figure{f.type, shapes_[new_orientation][f.type], new_orientation};
   }
 
-  // private:
+ private:
   FigureShape Rotate(const FigureShape& shape);
 
   std::vector<std::map<FigureType, FigureShape>> shapes_;
