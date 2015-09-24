@@ -123,8 +123,8 @@ bool Board::Rotate() {
   if (!figures_.size()) {
     return false;
   }
-  auto& figure = figures_.back();
-  auto rotated_shape = figure_manager_.GetRotated(figure.figure);
+  const auto& figure = figures_.back();
+  const auto rotated_shape = figure_manager_.GetRotated(figure.figure);
   BoardFigure rotated_figure{rotated_shape, figure.top_left_row,
                              figure.top_left_column};
   RemoveFromCells(figure);

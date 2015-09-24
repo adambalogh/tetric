@@ -8,7 +8,7 @@ namespace tetris {
 FigureManager::FigureManager() {
   std::srand(std::time(0));
 
-  std::map<FigureType, FigureShape> up_shapes{
+  const std::map<FigureType, FigureShape> up_shapes{
       {I, {{1, 1, 1, 1}}},
       {L, {{1, 1, 1}, {1, 0, 0}}},
       {SQUARE, {{1, 1}, {1, 1}}},
@@ -18,15 +18,15 @@ FigureManager::FigureManager() {
   };
 
   std::map<FigureType, FigureShape> rot1;
-  for (auto& f : up_shapes) {
+  for (const auto& f : up_shapes) {
     rot1[f.first] = Rotate(f.second);
   }
   std::map<FigureType, FigureShape> rot2;
-  for (auto& f : rot1) {
+  for (const auto& f : rot1) {
     rot2[f.first] = Rotate(f.second);
   }
   std::map<FigureType, FigureShape> rot3;
-  for (auto& f : rot2) {
+  for (const auto& f : rot2) {
     rot3[f.first] = Rotate(f.second);
   }
   shapes_ = std::vector<std::map<FigureType, FigureShape>>{up_shapes, rot1,

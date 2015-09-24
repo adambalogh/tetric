@@ -36,7 +36,7 @@ class FigureManager {
   }
 
   // Returns a random figure with up orientation.
-  inline Figure GetRandomUpFigure() const {
+  Figure GetRandomUpFigure() const {
     auto type = static_cast<FigureType>(std::rand() % NUM_TYPES);
     return Figure{type, shapes_.at(0).at(type), 0};
   }
