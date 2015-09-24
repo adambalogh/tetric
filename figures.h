@@ -1,7 +1,6 @@
 #ifndef TETRIS_FIGURES_H_
 #define TETRIS_FIGURES_H_
 
-#include <cstdlib>
 #include <map>
 #include <vector>
 
@@ -11,39 +10,10 @@ typedef bool CellType;
 typedef std::vector<std::vector<CellType>> FigureShape;
 typedef enum { I, SQUARE, L, T, SKEW_RIGHT, SKEW_LEFT, NUM_TYPES } FigureType;
 
-struct Figure {
-  const FigureType type;
-  const FigureShape& shape;
-  int orientation;
-
-  Figure(FigureType type, const FigureShape& shape, int orientation)
-      : type(type), shape(shape), orientation(orientation) {}
-
-  int Height() const { return shape.size(); }
-  int Width() const { return shape[0].size(); }
-};
-
-// Creates and Rotates Figures in an efficient way.
-//
-// FigureManager must outlive Figures that were returned by it.
-class FigureManager {
+class ShapeRepository {
  public:
-  // Returns a figure with the given type and orientation.
-  Figure MakeFigure(const FigureType type, const int orientation) {
-    return Figure{type, shapes_.at(orientation).at(type), orientation};
-  }
-
-  // Returns a random figure with up orientation.
-  Figure GetRandomUpFigure() const {
-    auto type = static_cast<FigureType>(std::rand() % NUM_TYPES);
-    return Figure{type, shapes_.at(0).at(type), 0};
-  }
-
-  // Rotates the given figure clockwise
-  Figure GetRotated(const Figure& f) const {
-    int new_orientation = (f.orientation + 1) % 4;
-    return Figure{f.type, shapes_.at(new_orientation).at(f.type),
-                  new_orientation};
+  const FigureShape& GetShape(const FigureType type, int orientation) const {
+    return shapes_.at(orientation).at(type);
   }
 
  private:
@@ -51,6 +21,22 @@ class FigureManager {
   static std::vector<std::map<FigureType, FigureShape>> MakeShapes();
 
   static const std::vector<std::map<FigureType, FigureShape>> shapes_;
+};
+
+struct Figure {
+  const FigureType type;
+  const FigureShape& shape;
+  int orientation;
+
+  Figure(FigureType type, int orientation)
+      : type(type),
+        shape(shape_repository_.GetShape(type, orientation)),
+        orientation(orientation) {}
+
+  int Height() const { return shape.size(); }
+  int Width() const { return shape[0].size(); }
+
+  ShapeRepository shape_repository_;
 };
 }
 #endif

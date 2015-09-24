@@ -19,23 +19,20 @@ class Board {
   static const int width = 8;
 
  private:
-  struct BoardFigure {
-    Figure figure;
+  struct BoardFigure : Figure {
     int top_left_row;
     int top_left_column;
 
-    BoardFigure(Figure figure, int top_left_row, int top_left_column)
-        : figure(figure),
+    BoardFigure(FigureType type, int orientation, int top_left_row,
+                int top_left_column)
+        : Figure(type, orientation),
           top_left_row(top_left_row),
           top_left_column(top_left_column) {}
-
-    int Height() const { return figure.Height(); }
-    int Width() const { return figure.Width(); }
-    const FigureShape& Shape() const { return figure.shape; }
   };
 
  public:
   Board() {
+    std::srand(std::time(0));
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < width; ++j) {
         cells_[i][j] = false;
@@ -67,23 +64,20 @@ class Board {
 
   bool CanPlace(const FigureShape& figure, int row, int column) const;
   bool CanPlace(const BoardFigure& figure, int row, int column) const {
-    return CanPlace(figure.Shape(), row, column);
+    return CanPlace(figure.shape, row, column);
   }
   bool CanPlace(const BoardFigure& figure) const {
-    return CanPlace(figure.Shape(), figure.top_left_row,
-                    figure.top_left_column);
+    return CanPlace(figure.shape, figure.top_left_row, figure.top_left_column);
   }
 
   void AddFigure(const BoardFigure& figure);
 
   void AddToCells(const BoardFigure& figure);
   void RemoveFromCells(const BoardFigure& figure);
-
   void SetCells(const BoardFigure& figure, CellType value);
 
   CellType cells_[height][width];
   std::vector<BoardFigure> figures_;
-  FigureManager figure_manager_;
 };
 }
 

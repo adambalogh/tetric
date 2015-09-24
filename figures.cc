@@ -1,15 +1,12 @@
 #include <map>
-#include <ctime>
 
 #include "figures.h"
 
 namespace tetris {
 
-const auto FigureManager::shapes_ = FigureManager::MakeShapes();
+const auto ShapeRepository::shapes_ = ShapeRepository::MakeShapes();
 
-std::vector<std::map<FigureType, FigureShape>> FigureManager::MakeShapes() {
-  std::srand(std::time(0));
-
+std::vector<std::map<FigureType, FigureShape>> ShapeRepository::MakeShapes() {
   const std::map<FigureType, FigureShape> up_shapes{
       {I, {{1, 1, 1, 1}}},
       {L, {{1, 1, 1}, {1, 0, 0}}},
@@ -35,7 +32,7 @@ std::vector<std::map<FigureType, FigureShape>> FigureManager::MakeShapes() {
                                                         rot3};
 }
 
-FigureShape FigureManager::Rotate(const FigureShape& shape) {
+FigureShape ShapeRepository::Rotate(const FigureShape& shape) {
   FigureShape rotated(shape[0].size(), std::vector<CellType>(shape.size()));
   for (int i = 0; i < rotated.size(); ++i) {
     for (int j = 0; j < rotated[0].size(); ++j) {

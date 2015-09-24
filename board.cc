@@ -13,7 +13,7 @@ void Board::AddFigure(const BoardFigure& figure) {
 void Board::SetCells(const BoardFigure& figure, CellType value) {
   for (int i = 0; i < figure.Height(); ++i) {
     for (int j = 0; j < figure.Width(); ++j) {
-      if (figure.Shape()[i][j]) {
+      if (figure.shape[i][j]) {
         cells_[figure.top_left_row + i][figure.top_left_column + j] = value;
       }
     }
@@ -102,7 +102,8 @@ bool Board::CallBack() {
       ClearFullRows();
     }
   }
-  BoardFigure f(figure_manager_.GetRandomUpFigure(), 0, 0);
+  auto type = static_cast<FigureType>(std::rand() % NUM_TYPES);
+  BoardFigure f(type, 0, 0, 0);
   if (CanPlace(f)) {
     AddFigure(f);
     return true;
@@ -124,9 +125,9 @@ bool Board::Rotate() {
     return false;
   }
   const auto& figure = figures_.back();
-  const auto rotated_shape = figure_manager_.GetRotated(figure.figure);
-  BoardFigure rotated_figure{rotated_shape, figure.top_left_row,
-                             figure.top_left_column};
+  BoardFigure rotated_figure{figure.type, (figure.orientation + 1) % 4,
+                             figure.top_left_row, figure.top_left_column};
+
   RemoveFromCells(figure);
   if (CanPlace(rotated_figure)) {
     figures_.pop_back();
