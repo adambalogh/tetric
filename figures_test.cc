@@ -7,33 +7,49 @@ using namespace tetris;
 
 TEST(FigureManager, MakeFigureUpOrientation) {
   FigureManager fm;
-  auto figure = fm.MakeFigure(I, 0);
+  auto figure = fm.MakeFigure(L, 0);
 
-  ASSERT_EQ(I, figure.type);
+  FigureShape shape{{1, 1, 1}, {1, 0, 0}};
+
+  ASSERT_EQ(L, figure.type);
   ASSERT_EQ(0, figure.orientation);
-  FigureShape i_shape{{1, 1, 1, 1}};
-  ASSERT_EQ(i_shape, figure.shape);
+  ASSERT_EQ(shape, figure.shape);
 }
 
-TEST(FigureManager, MakeFigureRotatedOrientation) {
+TEST(FigureManager, OneRotate) {
   FigureManager fm;
-  auto figure = fm.MakeFigure(I, 1);
-
-  ASSERT_EQ(I, figure.type);
-  ASSERT_EQ(1, figure.orientation);
-  FigureShape i_shape{{1}, {1}, {1}, {1}};
-  ASSERT_EQ(i_shape, figure.shape);
-}
-
-TEST(FigureManager, Rotate) {
-  FigureManager fm;
-  auto figure = fm.MakeFigure(I, 0);
+  auto figure = fm.MakeFigure(L, 0);
   auto rotated = fm.GetRotated(figure);
 
-  ASSERT_EQ(I, rotated.type);
+  FigureShape shape{{1, 1}, {0, 1}, {0, 1}};
+
+  ASSERT_EQ(L, rotated.type);
   ASSERT_EQ(1, rotated.orientation);
-  FigureShape i_shape{{1}, {1}, {1}, {1}};
-  ASSERT_EQ(i_shape, rotated.shape);
+  ASSERT_EQ(shape, rotated.shape);
+}
+
+TEST(FigureManager, TwoRotate) {
+  FigureManager fm;
+  auto figure = fm.MakeFigure(L, 0);
+  auto rotated = fm.GetRotated(fm.GetRotated(figure));
+
+  FigureShape shape{{0, 0, 1}, {1, 1, 1}};
+
+  ASSERT_EQ(L, rotated.type);
+  ASSERT_EQ(2, rotated.orientation);
+  ASSERT_EQ(shape, rotated.shape);
+}
+
+TEST(FigureManager, ThreeRotate) {
+  FigureManager fm;
+  auto figure = fm.MakeFigure(L, 0);
+  auto rotated = fm.GetRotated(fm.GetRotated(fm.GetRotated(figure)));
+
+  FigureShape shape{{1, 0}, {1, 0}, {1, 1}};
+
+  ASSERT_EQ(L, rotated.type);
+  ASSERT_EQ(3, rotated.orientation);
+  ASSERT_EQ(shape, rotated.shape);
 }
 
 int main(int argc, char** argv) {
