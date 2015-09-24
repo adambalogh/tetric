@@ -23,9 +23,6 @@ struct Figure {
   int Width() const { return shape[0].size(); }
 };
 
-FigureShape Rotate(const FigureShape& shape);
-std::vector<std::map<FigureType, FigureShape>> MakeShapes();
-
 // Creates and Rotates Figures in an efficient way.
 //
 // FigureManager must outlive Figures that were returned by it.
@@ -50,6 +47,9 @@ class FigureManager {
   }
 
  private:
+  static FigureShape Rotate(const FigureShape& shape);
+  static std::vector<std::map<FigureType, FigureShape>> MakeShapes();
+
   static const std::vector<std::map<FigureType, FigureShape>> shapes_;
 };
 }
