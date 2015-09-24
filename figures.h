@@ -36,6 +36,7 @@ struct Figure {
   int Height() const { return shape.size(); }
   int Width() const { return shape[0].size(); }
 
+ private:
   ShapeRepository shape_repository_;
 };
 }
