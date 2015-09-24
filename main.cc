@@ -1,5 +1,6 @@
 #include <termios.h>
 #include <iostream>
+#include <mutex>
 #include <thread>
 #include <chrono>
 #include <ncurses.h>
@@ -40,11 +41,16 @@ int main() {
   intrflush(stdscr, FALSE);
   keypad(stdscr, TRUE);
 
+  std::mutex mu_;
+
   tetris::Board b;
 
   std::thread loop([&]() {
     while (b.CallBack()) {
-      DrawBoard(&b);
+      {
+        std::lock_guard<std::mutex> l(mu_);
+        DrawBoard(&b);
+      }
       std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
   });
@@ -52,19 +58,22 @@ int main() {
   char c;
   while (true) {
     auto key = getch();
-    if (key == 'a') {
-      b.Move(tetris::LEFT);
+    {
+      std::lock_guard<std::mutex> l(mu_);
+      if (key == 'a') {
+        b.Move(tetris::LEFT);
+      }
+      if (key == 'd') {
+        b.Move(tetris::RIGHT);
+      }
+      if (key == 's') {
+        b.Move(tetris::DOWN);
+      }
+      if (key == 'j') {
+        b.Rotate();
+      }
+      DrawBoard(&b);
     }
-    if (key == 'd') {
-      b.Move(tetris::RIGHT);
-    }
-    if (key == 's') {
-      b.Move(tetris::DOWN);
-    }
-    if (key == 'j') {
-      b.Rotate();
-    }
-    DrawBoard(&b);
   }
   loop.join();
 }

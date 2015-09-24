@@ -53,10 +53,7 @@ class Board {
   bool Rotate();
 
   // Returns whether there is a figure at the given location
-  CellType At(int row, int column) const {
-    std::lock_guard<std::mutex> lock(mu_);
-    return cells_[row][column];
-  }
+  CellType At(int row, int column) const { return cells_[row][column]; }
 
  private:
   void ClearFullRows();
@@ -83,9 +80,6 @@ class Board {
   void RemoveFromCells(const BoardFigure& figure);
 
   void SetCells(const BoardFigure& figure, CellType value);
-
-  // Guard public methods
-  mutable std::mutex mu_;
 
   CellType cells_[12][8];
   std::vector<BoardFigure> figures_;

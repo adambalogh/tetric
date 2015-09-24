@@ -94,7 +94,6 @@ bool Board::MoveIfPossible(BoardFigure& figure, Direction d) {
 }
 
 bool Board::CallBack() {
-  std::lock_guard<std::mutex> lock(mu_);
   if (figures_.size()) {
     auto& figure = figures_.back();
     if (MoveDownIfPossible(figure)) {
@@ -113,7 +112,6 @@ bool Board::CallBack() {
 }
 
 bool Board::Move(Direction d) {
-  std::lock_guard<std::mutex> lock(mu_);
   if (!figures_.size()) {
     return false;
   }
