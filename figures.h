@@ -23,13 +23,14 @@ struct Figure {
   int Width() const { return shape[0].size(); }
 };
 
+FigureShape Rotate(const FigureShape& shape);
+std::vector<std::map<FigureType, FigureShape>> MakeShapes();
+
 // Creates and Rotates Figures in an efficient way.
 //
 // FigureManager must outlive Figures that were returned by it.
 class FigureManager {
  public:
-  FigureManager();
-
   // Returns a figure with the given type and orientation.
   Figure MakeFigure(const FigureType type, const int orientation) {
     return Figure{type, shapes_.at(orientation).at(type), orientation};
@@ -49,9 +50,7 @@ class FigureManager {
   }
 
  private:
-  FigureShape Rotate(const FigureShape& shape);
-
-  std::vector<std::map<FigureType, FigureShape>> shapes_;
+  static const std::vector<std::map<FigureType, FigureShape>> shapes_;
 };
 }
 #endif

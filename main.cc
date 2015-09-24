@@ -42,7 +42,6 @@ int main() {
   keypad(stdscr, TRUE);
 
   std::mutex mu_;
-
   tetris::Board b;
 
   std::thread loop([&]() {

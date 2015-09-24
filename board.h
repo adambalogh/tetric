@@ -15,8 +15,8 @@ typedef enum { LEFT, RIGHT, DOWN } Direction;
 
 class Board {
  public:
-  const int height = 12;
-  const int width = 8;
+  static const int height = 12;
+  static const int width = 8;
 
  private:
   struct BoardFigure {
@@ -81,7 +81,7 @@ class Board {
 
   void SetCells(const BoardFigure& figure, CellType value);
 
-  CellType cells_[12][8];
+  CellType cells_[height][width];
   std::vector<BoardFigure> figures_;
   FigureManager figure_manager_;
 };
