@@ -10,6 +10,7 @@
 
 namespace tetris {
 
+// Directions we can move figures to
 typedef enum { LEFT, RIGHT, DOWN } Direction;
 
 class Board {
@@ -42,10 +43,16 @@ class Board {
     }
   }
 
+  // Should be called periodically to move the current figure down
   bool CallBack();
+
+  // Should be called when player wants to move the current figure
   bool Move(Direction d);
+
+  // Should be called when player wants to rotate the current figure
   bool Rotate();
 
+  // Returns whether there is a figure at the given location
   CellType At(int row, int column) const {
     std::lock_guard<std::mutex> lock(mu_);
     return cells_[row][column];

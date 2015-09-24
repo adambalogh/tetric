@@ -27,15 +27,22 @@ class FigureManager {
  public:
   FigureManager();
 
+  // Returns a figure with the given type and orientation.
+  //
+  // FigureMaker must outlive the returned Figure.
   Figure MakeFigure(const FigureType type, const int orientation) {
     return Figure{type, shapes_[orientation][type], orientation};
   }
 
+  // Returns a random figure with up orientation.
+  //
+  // FigureManager must outlive the returned Figure.
   inline Figure GetRandomUpFigure() {
     auto type = static_cast<FigureType>(std::rand() % NUM_TYPES);
     return Figure{type, shapes_[0][type], 0};
   }
 
+  // Rotates the given figure clockwise
   Figure GetRotated(const Figure& f) {
     int new_orientation = (f.orientation + 1) % 4;
     return Figure{f.type, shapes_[new_orientation][f.type], new_orientation};
