@@ -125,6 +125,7 @@ bool Board::Rotate() {
     return false;
   }
   const auto& figure = figures_.back();
+  // TODO position should not be the same in all cases
   BoardFigure rotated_figure{figure.type, (figure.orientation + 1) % 4,
                              figure.top_left_row, figure.top_left_column};
 

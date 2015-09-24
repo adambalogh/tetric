@@ -26,7 +26,7 @@ class ShapeRepository {
 struct Figure {
   const FigureType type;
   const FigureShape& shape;
-  int orientation;
+  const int orientation;
 
   Figure(FigureType type, int orientation)
       : type(type),

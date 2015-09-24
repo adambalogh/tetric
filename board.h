@@ -10,9 +10,10 @@
 
 namespace tetris {
 
-// Directions we can move figures to
+// Directions we can move figures in
 typedef enum { LEFT, RIGHT, DOWN } Direction;
 
+// TODO add tests
 class Board {
  public:
   static const int height = 12;
