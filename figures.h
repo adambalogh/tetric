@@ -24,6 +24,10 @@ class ShapeRepository {
 };
 
 struct Figure {
+ private:
+  ShapeRepository shape_repository_;
+
+ public:
   const FigureType type;
   const FigureShape& shape;
   const int orientation;
@@ -35,9 +39,6 @@ struct Figure {
 
   int Height() const { return shape.size(); }
   int Width() const { return shape[0].size(); }
-
- private:
-  ShapeRepository shape_repository_;
 };
 }
 #endif
