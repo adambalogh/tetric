@@ -21,6 +21,18 @@ std::vector<std::vector<CellType>> GetCells(const Board& b) {
   return cells;
 }
 
+class MockRandomFigureGenerator : public RandomFigureGenerator {
+ public:
+  MockRandomFigureGenerator(std::vector<FigureType> types) : types_(types) {}
+  virtual BoardFigure Get() override {
+    return BoardFigure{types_[i++], 0, 0, 0};
+  }
+
+ private:
+  std::vector<FigureType> types_;
+  int i{0};
+};
+
 TEST(Board, EmptyInitially) {
   Board b;
   ASSERT_EQ(GetCells(b), MakeEmptyCells());
@@ -36,6 +48,13 @@ TEST(Board, RotateBeforeCallBack) {
   Board b;
   b.Rotate();
   ASSERT_EQ(GetCells(b), MakeEmptyCells());
+}
+
+TEST(Board, InitialCallBack) {
+  Board b(
+      std::make_unique<MockRandomFigureGenerator>(std::vector<FigureType>{L}));
+  b.CallBack();
+  auto expected = MakeEmptyCells();
 }
 
 int main(int argc, char** argv) {

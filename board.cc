@@ -102,8 +102,7 @@ bool Board::CallBack() {
       ClearFullRows();
     }
   }
-  auto type = static_cast<FigureType>(random_num_gen_->Get(0, NUM_TYPES - 1));
-  BoardFigure f(type, 0, 0, 0);
+  auto f = figure_gen_->Get();
   if (CanPlace(f)) {
     AddFigure(f);
     return true;

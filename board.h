@@ -13,14 +13,26 @@ namespace tetris {
 // Directions we can move figures in
 typedef enum { LEFT, RIGHT, DOWN } Direction;
 
-class RandomNumberGenerator {
- public:
-  RandomNumberGenerator() { std::srand(std::time(0)); }
+struct BoardFigure : Figure {
+  int top_left_row;
+  int top_left_column;
 
-  // Returns a random number in the range [min,max]
-  virtual int Get(int min, int max) {
-    return min + (std::rand() % (max - min));
-  }
+  BoardFigure(FigureType type, int orientation, int top_left_row,
+              int top_left_column)
+      : Figure(type, orientation),
+        top_left_row(top_left_row),
+        top_left_column(top_left_column) {}
+};
+
+class RandomFigureGenerator {
+ public:
+  RandomFigureGenerator() { std::srand(std::time(0)); }
+
+  virtual BoardFigure Get() {
+    auto type = static_cast<FigureType>(std::rand() % NUM_TYPES);
+    BoardFigure f(type, 0, 0, 0);
+    return f;
+  };
 };
 
 // TODO add tests
@@ -29,22 +41,10 @@ class Board {
   static const int height = 12;
   static const int width = 8;
 
- private:
-  struct BoardFigure : Figure {
-    int top_left_row;
-    int top_left_column;
-
-    BoardFigure(FigureType type, int orientation, int top_left_row,
-                int top_left_column)
-        : Figure(type, orientation),
-          top_left_row(top_left_row),
-          top_left_column(top_left_column) {}
-  };
-
  public:
-  Board(std::unique_ptr<RandomNumberGenerator> r =
-            std::make_unique<RandomNumberGenerator>())
-      : random_num_gen_(std::move(r)) {
+  Board(std::unique_ptr<RandomFigureGenerator> r =
+            std::make_unique<RandomFigureGenerator>())
+      : figure_gen_(std::move(r)) {
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < width; ++j) {
         cells_[i][j] = false;
@@ -90,7 +90,7 @@ class Board {
   void RemoveFromCells(const BoardFigure& figure);
   void SetCells(const BoardFigure& figure, CellType value);
 
-  std::unique_ptr<RandomNumberGenerator> random_num_gen_;
+  std::unique_ptr<RandomFigureGenerator> figure_gen_;
   CellType cells_[height][width];
   std::vector<BoardFigure> figures_;
 };
