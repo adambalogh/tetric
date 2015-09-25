@@ -17,7 +17,7 @@ class RandomNumberGenerator {
  public:
   RandomNumberGenerator() { std::srand(std::time(0)); }
 
-  // Returns a random number in the range [min,max)
+  // Returns a random number in the range [min,max]
   virtual int Get(int min, int max) {
     return min + (std::rand() % (max - min));
   }
