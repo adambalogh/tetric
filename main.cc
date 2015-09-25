@@ -47,8 +47,8 @@ int main() {
   std::thread loop([&]() {
     while (true) {
       {
-        if (!b.CallBack()) return;
         std::lock_guard<std::mutex> l(mu_);
+        if (!b.CallBack()) return;
         DrawBoard(&b);
       }
       std::this_thread::sleep_for(std::chrono::milliseconds(500));
