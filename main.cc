@@ -45,8 +45,9 @@ int main() {
   tetris::Board b;
 
   std::thread loop([&]() {
-    while (b.CallBack()) {
+    while (true) {
       {
+        if (!b.CallBack()) return;
         std::lock_guard<std::mutex> l(mu_);
         DrawBoard(&b);
       }
