@@ -45,9 +45,11 @@ class Board {
   bool CallBack();
 
   // Should be called when player wants to move the current figure
+  // If there is no current figure, nothing will happen.
   bool Move(Direction d);
 
   // Should be called when player wants to rotate the current figure
+  // If there is no current figure, nothing will happen.
   bool Rotate();
 
   // Returns whether there is a figure at the given location

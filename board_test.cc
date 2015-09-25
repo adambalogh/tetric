@@ -23,8 +23,19 @@ std::vector<std::vector<CellType>> GetCells(const Board& b) {
 
 TEST(Board, EmptyInitially) {
   Board b;
-  auto cells = GetCells(b);
-  ASSERT_EQ(cells, MakeEmptyCells());
+  ASSERT_EQ(GetCells(b), MakeEmptyCells());
+}
+
+TEST(Board, MoveBeforeCallBack) {
+  Board b;
+  b.Move(RIGHT);
+  ASSERT_EQ(GetCells(b), MakeEmptyCells());
+}
+
+TEST(Board, RotateBeforeCallBack) {
+  Board b;
+  b.Rotate();
+  ASSERT_EQ(GetCells(b), MakeEmptyCells());
 }
 
 int main(int argc, char** argv) {
