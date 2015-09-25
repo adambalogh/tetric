@@ -13,6 +13,14 @@ namespace tetris {
 // Directions we can move figures in
 typedef enum { LEFT, RIGHT, DOWN } Direction;
 
+class RandomNumberGenerator {
+ public:
+  RandomNumberGenerator() { std::srand(std::time(0)); }
+
+  // Returns a random number in the range [min,max)
+  int Get(int min, int max) { return min + (std::rand() % (max - min)); }
+};
+
 // TODO add tests
 class Board {
  public:
@@ -32,8 +40,9 @@ class Board {
   };
 
  public:
-  Board() {
-    std::srand(std::time(0));
+  Board(std::unique_ptr<RandomNumberGenerator> r =
+            std::make_unique<RandomNumberGenerator>(RandomNumberGenerator{}))
+      : random_num_gen_(std::move(r)) {
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < width; ++j) {
         cells_[i][j] = false;
@@ -79,6 +88,7 @@ class Board {
   void RemoveFromCells(const BoardFigure& figure);
   void SetCells(const BoardFigure& figure, CellType value);
 
+  std::unique_ptr<RandomNumberGenerator> random_num_gen_;
   CellType cells_[height][width];
   std::vector<BoardFigure> figures_;
 };
