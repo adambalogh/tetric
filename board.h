@@ -18,7 +18,9 @@ class RandomNumberGenerator {
   RandomNumberGenerator() { std::srand(std::time(0)); }
 
   // Returns a random number in the range [min,max)
-  int Get(int min, int max) { return min + (std::rand() % (max - min)); }
+  virtual int Get(int min, int max) {
+    return min + (std::rand() % (max - min));
+  }
 };
 
 // TODO add tests
@@ -41,7 +43,7 @@ class Board {
 
  public:
   Board(std::unique_ptr<RandomNumberGenerator> r =
-            std::make_unique<RandomNumberGenerator>(RandomNumberGenerator{}))
+            std::make_unique<RandomNumberGenerator>())
       : random_num_gen_(std::move(r)) {
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < width; ++j) {
