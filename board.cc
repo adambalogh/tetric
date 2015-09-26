@@ -27,13 +27,8 @@ void Board::AddFigure(const BoardFigure& figure) {
 void Board::ClearFullRows() {
   bool is_full[height];
   for (int i = 0; i < height; ++i) {
-    bool full = true;
-    for (int j = 0; j < width; ++j) {
-      if (!cells_[i][j]) {
-        full = false;
-      }
-    }
-    is_full[i] = full;
+    is_full[i] = std::all_of(std::begin(cells_[i]), std::end(cells_[i]),
+                             [](auto el) { return el == 1; });
   }
 
   int index = height - 1;
