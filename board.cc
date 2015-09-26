@@ -37,8 +37,8 @@ void Board::ClearFullRows() {
     cells_[index--] = cells_[i];
   }
 
-  std::fill(std::begin(cells_), std::begin(cells_) + index,
-            std::array<CellType, width>{});
+  std::for_each(std::begin(cells_), std::begin(cells_) + ++index,
+                [](auto& row) { row.fill(0); });
 }
 
 bool Board::CanPlace(const FigureShape& figure, int row, int column) const {

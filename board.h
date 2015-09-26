@@ -67,7 +67,7 @@ class Board {
   // Returns whether there is a figure at the given location
   CellType At(int row, int column) const { return cells_[row][column]; }
 
- private:
+  // private:
   void ClearFullRows();
 
   // Returns true if we can move the given figure to the given direction
