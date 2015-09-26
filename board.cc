@@ -45,11 +45,8 @@ void Board::ClearFullRows() {
     index--;
   }
 
-  for (int i = index - 1; i >= 0; --i) {
-    for (int j = 0; j < width; ++j) {
-      cells_[i][j] = 0;
-    }
-  }
+  std::fill(std::begin(cells_), std::begin(cells_) + index,
+            std::array<CellType, width>{});
 }
 
 bool Board::CanPlace(const FigureShape& figure, int row, int column) const {
