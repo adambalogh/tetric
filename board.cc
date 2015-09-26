@@ -34,10 +34,7 @@ void Board::ClearFullRows() {
   int index = height - 1;
   for (int i = height - 1; i >= 0; --i) {
     if (is_full[i]) continue;
-    for (int j = 0; j < width; ++j) {
-      cells_[index][j] = cells_[i][j];
-    }
-    index--;
+    cells_[index--] = cells_[i];
   }
 
   std::fill(std::begin(cells_), std::begin(cells_) + index,
