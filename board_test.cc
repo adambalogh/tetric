@@ -51,8 +51,8 @@ TEST(Board, RotateBeforeCallBack) {
 }
 
 TEST(Board, InitialCallBack) {
-  Board b(
-      std::make_unique<MockRandomFigureGenerator>(std::vector<FigureType>{L}));
+  Board b{
+      std::make_unique<MockRandomFigureGenerator>(std::vector<FigureType>{L})};
   b.CallBack();
   auto expected = MakeEmptyCells();
 }

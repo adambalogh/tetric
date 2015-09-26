@@ -1,11 +1,11 @@
 #ifndef TETRIS_BOARD_H_
 #define TETRIS_BOARD_H_
 
-#include <vector>
 #include <array>
 #include <cstdlib>
 #include <ctime>
 #include <thread>
+#include <vector>
 
 #include "figures.h"
 

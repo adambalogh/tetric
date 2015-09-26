@@ -90,7 +90,6 @@ bool Board::MoveIfPossible(BoardFigure& figure, Direction d) {
     figure.top_left_column = new_column;
   }
   AddToCells(figure);
-
   return can_move;
 }
 
@@ -99,13 +98,14 @@ bool Board::CallBack() {
     auto& figure = figures_.back();
     if (MoveDownIfPossible(figure)) {
       return true;
-    } else {
-      ClearFullRows();
     }
+    ClearFullRows();
   }
-  auto f = figure_gen_->Get();
-  if (CanPlace(f)) {
-    AddFigure(f);
+
+  // Add new figure to board
+  auto new_figure = figure_gen_->Get();
+  if (CanPlace(new_figure)) {
+    AddFigure(new_figure);
     return true;
   }
 
@@ -128,7 +128,6 @@ bool Board::Rotate() {
   // TODO position should not be the same in all cases
   BoardFigure rotated_figure{figure.type, (figure.orientation + 1) % 4,
                              figure.top_left_row, figure.top_left_column};
-
   RemoveFromCells(figure);
   if (CanPlace(rotated_figure)) {
     figures_.pop_back();
