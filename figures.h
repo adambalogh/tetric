@@ -37,8 +37,8 @@ struct Figure {
         shape(shape_repository_.GetShape(type, orientation)),
         orientation(orientation) {}
 
-  int Height() const { return shape.size(); }
-  int Width() const { return shape[0].size(); }
+  int height() const { return shape.size(); }
+  int width() const { return shape[0].size(); }
 };
 }
 #endif

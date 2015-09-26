@@ -5,14 +5,9 @@
 
 namespace tetris {
 
-void Board::AddFigure(const BoardFigure& figure) {
-  figures_.push_back(figure);
-  AddToCells(figure);
-}
-
 void Board::SetCells(const BoardFigure& figure, CellType value) {
-  for (int i = 0; i < figure.Height(); ++i) {
-    for (int j = 0; j < figure.Width(); ++j) {
+  for (int i = 0; i < figure.height(); ++i) {
+    for (int j = 0; j < figure.width(); ++j) {
       if (figure.shape[i][j]) {
         cells_[figure.top_left_row + i][figure.top_left_column + j] = value;
       }
@@ -21,7 +16,13 @@ void Board::SetCells(const BoardFigure& figure, CellType value) {
 }
 
 void Board::AddToCells(const BoardFigure& figure) { SetCells(figure, 1); }
+
 void Board::RemoveFromCells(const BoardFigure& figure) { SetCells(figure, 0); }
+
+void Board::AddFigure(const BoardFigure& figure) {
+  figures_.push_back(figure);
+  AddToCells(figure);
+}
 
 void Board::ClearFullRows() {
   bool is_full[height];
