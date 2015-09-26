@@ -2,6 +2,7 @@
 #define TETRIS_BOARD_H_
 
 #include <vector>
+#include <array>
 #include <cstdlib>
 #include <ctime>
 #include <thread>
@@ -91,7 +92,7 @@ class Board {
   void SetCells(const BoardFigure& figure, CellType value);
 
   std::unique_ptr<RandomFigureGenerator> figure_gen_;
-  CellType cells_[height][width];
+  std::array<std::array<CellType, width>, height> cells_;
   std::vector<BoardFigure> figures_;
 };
 }
